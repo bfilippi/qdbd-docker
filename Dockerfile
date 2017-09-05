@@ -1,5 +1,6 @@
 FROM       ubuntu:latest
 
+RUN apt-get clean && apt-get update && apt-get install -y locales
 RUN locale-gen en_US.UTF-8
 
 # Decompress the tarball in the container
