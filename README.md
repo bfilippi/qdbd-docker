@@ -25,18 +25,21 @@ This repository contains the **Dockerfile** of [QuasarDB](http://www.quasardb.ne
 
 #### Run `qdbd`
 
-    docker run -d -p 2836:2836 --name qdb-server bureau14/qdb
+    docker run -it -p 8081:8081 -p 2836:2836 -p 8080:8080  --mount source=quasardb,target=/var/lib/qdb/db --name qdb-server bureau14/qdb
 
-#### Run `qdbd` w/ persistent directory
+    Monitoring will run from your browser http://127.0.0.1:8080
+    Python notebook will run from your browser http://127.0.0.1:8081
+    External APIs can connect to qdb://127.0.0.1:2836
 
-    docker run -d -p 2836:2836 -v <db-dir>:/var/lib/qdb --name qdb-server bureau14/qdb
+#### Run `qdbd` w/ user host directory
+
+docker run -it -p 8081:8081 -p 2836:2836 -p 8080:8080   --mount source=quasardb,target=/var/lib/qdb/db -v <user-dir>:/var/lib/qdb/user --name qdb-server bureau14/qdb
 
 #### Run `qdbd` w/ license file and persistent directory
 
-    # Put the license.txt file in the root of your <db-dir>
-    cp license.txt <db-dir>
+    # Put the license.txt file in the root of your <user-dir>
+    cp license.txt <user-dir>
 
-    # Now launch the docker container with the <db-dir> mounted, the container will
+    # Now launch the docker container with the <user-dir> mounted, the container will
     # pick up the license file automatically.
-    docker run -d -p 2836:2836 -v <db-dir>:/var/lib/qdb --name qdb-server bureau14/qdb
-
+    docker run -it -p 8081:8081 -p 2836:2836 -p 8080:8080   --mount source=quasardb,target=/var/lib/qdb/db -v <user-dir>:/var/lib/qdb/license --name qdb-server bureau14/qdb
